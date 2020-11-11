@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {AuthContext} from './services/auth';
+import {ContextProvider} from './services/context';
 
 import Routes from './routes';
 
-var App = () => <AuthContext><Routes /></AuthContext>;
+var App = () => <ContextProvider><Routes /></ContextProvider>;
 
 export default App;

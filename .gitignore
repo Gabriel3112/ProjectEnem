@@ -44,10 +44,6 @@ buck-out/
 #Google Services
 google-services.json
 
-
-android\app\
-.gradle
-
 # fastlane
 #
 # It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
@@ -64,3 +60,5 @@ android\app\
 
 # CocoaPods
 /ios/Pods/
+
+android/app/build.gradle

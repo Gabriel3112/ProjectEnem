@@ -2,7 +2,8 @@ import {StyleSheet} from 'react-native';
 
 const Style = StyleSheet.create({
   container:{
-    width: 350,
+    minWidth: 250,
+    maxWidth: 370,
     maxHeight: 350,
     overflow: 'hidden',
     marginBottom: 10,
@@ -24,6 +25,15 @@ const Style = StyleSheet.create({
     fontStyle: 'italic',
     fontSize: 13,
   },
+  cardActionsShower:{
+    alignSelf: "flex-end",
+    
+  },
+  dialog:{
+    minWidth: 250,
+    maxWidth: 370,
+    maxHeight: 350,
+  }
 
 });
 

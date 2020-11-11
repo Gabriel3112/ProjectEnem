@@ -134,8 +134,8 @@ android {
         applicationId "com.projectenem"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
     }
     splits {
         abi {
@@ -156,7 +156,10 @@ android {
         release {
 
             //release info
-            
+            storeFile file('project_enem_key.keystore')
+            storePassword '88170591g'
+            keyAlias 'alias_project_enem_key'
+            keyPassword '88170591g'
         }
     }
     buildTypes {
@@ -166,7 +169,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

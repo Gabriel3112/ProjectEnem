@@ -1,5 +1,6 @@
 import React, {Component, useState} from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, ScrollView} from 'react-native';
+import {Title, Text} from 'react-native-paper';
 
 
 import Style from './style';
@@ -12,9 +13,10 @@ const scopo = route.params.scopo;
 const author = route.params.author;
   
   return(
-  <ScrollView>
+  <ScrollView style={Style.container}>
+    <Title style={Style.title}>{title}</Title>
     <Text style={Style.matter}>{matter}</Text>
-    <Text style={Style.title}>{title}</Text>
+    <View style={Style.lineBreak}></View>
     <Text style={Style.scopo}>{scopo}</Text>
     <Text style={Style.author}>Author: {author}</Text>
   </ScrollView>

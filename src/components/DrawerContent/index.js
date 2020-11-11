@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import {View} from 'react-native';
 
+import auth from '@react-native-firebase/auth';
 
 import {Drawer} from 'react-native-paper';
 
@@ -10,11 +11,11 @@ import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 
 import Style from './style';
 
-import Context from '../../services/auth';
+import Context from '../../services/context';
 
 const DrawerContent = (props)=>{
 
-  const {HandleLogout} = useContext(Context);
+  const {setRefreshingProfile, setLoadingContent} = useContext(Context);
 
   return(
     <View style={{flex: 1}}>
@@ -27,7 +28,9 @@ const DrawerContent = (props)=>{
           size={size}/>
         )}
         label={'Home'}
-        onPress={()=>{props.navigation.navigate('Home')}}/>
+        onPress={()=>{
+          props.navigation.navigate('Home');
+        }}/>
 
         <DrawerItem
         icon={({color, size}) => (
@@ -35,8 +38,20 @@ const DrawerContent = (props)=>{
           color={color}
           size={size}/>
         )}
-        label={'Publish'}
+        label={'Publicar'}
         onPress={()=>{props.navigation.navigate('Publish')}}/>
+
+        <DrawerItem
+          icon={({color, size}) => (
+            <Icon name='account'
+            color={color}
+            size={size}/>
+          )}
+        label={'Perfil'}
+        onPress={()=>{
+          props.navigation.navigate('Profile')
+          setRefreshingProfile(true);
+        }}/>
         </View>
       </DrawerContentScrollView>
       <Drawer.Section style={Style.bottomSection}>
@@ -46,7 +61,7 @@ const DrawerContent = (props)=>{
           color={color}
           size={size}/>
         )}
-        label={'Sair da conta'} onPress={()=>HandleLogout(props.navigation)}/>
+        label={'Sair da conta'} onPress={async ()=>await auth().signOut()}/>
       </Drawer.Section>
     </View>
   );

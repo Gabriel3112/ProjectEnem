@@ -6,36 +6,49 @@ import {Text,TextInput, Button} from 'react-native-paper';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; 
 
-import Context from '../../services/auth';
+import Context from '../../services/context';
 
 import Style from './style';
 
-import api from '../../services/api';
+import api from '../../services/connection/api';
 
 
-const Publish = ({navigation, route})=>{
-  const {user} = useContext(Context); 
+const Publish = ({navigation})=>{
+  const {user, setRefreshingHome} = useContext(Context); 
+
+  const [loading, setLoading] = useState(false);
 
   const [matter, setMatter] = useState('Matemática');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   
-  function ClearText(){
+  const ClearText = ()=>{
     setContent('');
     setTitle('');
   }
 
-  function HandlePublish(){
-    api.post('/content',{
+  const  HandlePublish =  ()=>{
+    if(title != null && content != null){
+      setLoading(true);
+     api.post('/content',{
+      UID: user.uid,
       matter: matter,
       title: title,
       content: content,
       author: user.displayName
-    }).then((result)=>{
+    }).then(()=>{
       ClearText();
-      navigation.navigate('Home');
+      setLoading(false);
+      navigation.navigate('Home', {refresh : true});
     })
-    .catch(err=>console.log(err));
+    .catch(()=>{
+      setLoading(false);
+      alert('Erro ao postar o conteúdo');
+    });
+    }else{
+      alert('Preencha todos os campos');
+    }
+    
   }
   
   
@@ -65,7 +78,7 @@ const Publish = ({navigation, route})=>{
     
     <TextInput mode={"outlined"} selectionColor={'#a9a9a9'} multiline label='Conteúdo' style={Style.contentInput} theme={{colors:{primary: '#000'}, roundness: 25}} onChangeText={(Text)=>{setContent(Text)}} value={content}/>
     
-    <Button onPress={()=>HandlePublish()} 
+    <Button disabled={loading} loading={loading} onPress={HandlePublish} 
     color='#000'
     icon={({color, size}) =>(
       <Icon 

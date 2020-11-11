@@ -22,12 +22,15 @@ import Home from './pages/Home';
 import Content from './components/Content';
 
 //PublishScreen
-import Publish from './pages/Publish'
+import Publish from './pages/Publish';
+
+//ProfileScreen
+import Profile from './pages/Profile';
 
 
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Context from './services/auth';
+import Context from './services/context';
 
 const StackLoginScreen = () => {
   return(
@@ -38,11 +41,30 @@ const StackLoginScreen = () => {
   );
 }
 
+const StackProfileScreen = ({navigation, route})=>{
+  const ModeHeader = ()=>{
+    
+    if(route.state == undefined || route.state.routes.length == 1){
+      return 'screen';
+    }else if(route.state.routes.length == 2){
+      return 'none';
+    }}
+  return(
+    <Stack.Navigator initialRouteName={'Profile'} headerMode={ModeHeader()} screenOptions={{
+      headerTitleAlign: 'center',
+      headerLeft: (()=><TouchableOpacity onPress={()=> navigation.openDrawer()}><Icon name={'menu'} size={55}/></TouchableOpacity>),
+    }}>
+      <Stack.Screen name={'Profile'} component={Profile}/>
+      <Stack.Screen name={'Content'} component={StackContentScreen}/>
+    </Stack.Navigator>
+  );
+}
+
 const StackContentScreen = ({navigation, route})=>{
   return(
     <Stack.Navigator screenOptions={{
       headerTitleAlign: 'center',
-      headerLeft: (()=><TouchableOpacity onPress={()=>navigation.goBack({routeName:'Home'})}><Icon name={'arrow-left'} size={55}/></TouchableOpacity>),
+      headerLeft: (()=><TouchableOpacity onPress={()=>navigation.goBack()}><Icon name={'arrow-left'} size={55}/></TouchableOpacity>),
   }}>
       <Stack.Screen name={'Content'} component={Content} initialParams={{matter: route.params.matter, title: route.params.title, scopo: route.params.scopo, author: route.params.author}}/>
     </Stack.Navigator>
@@ -73,8 +95,9 @@ const DrawerHomeScreen = ()=>{
     
   return(
     <Drawer.Navigator drawerContent={ props=><DrawerContent {...props}/> }  >
-      <Drawer.Screen name='Home' component={StackHomeScreen}/>
-      <Drawer.Screen name='Publish' component={StackPublishScreen}/>
+      <Drawer.Screen name={'Home'} component={StackHomeScreen}/>
+      <Drawer.Screen name={'Publish'} component={StackPublishScreen}/>
+      <Drawer.Screen name={'Profile'} component={StackProfileScreen}/>
     </Drawer.Navigator>
   );
 }
