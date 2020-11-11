@@ -156,10 +156,7 @@ android {
         release {
 
             //release info
-            storeFile file('project_enem_key.keystore')
-            storePassword '88170591g'
-            keyAlias 'alias_project_enem_key'
-            keyPassword '88170591g'
+            
         }
     }
     buildTypes {
